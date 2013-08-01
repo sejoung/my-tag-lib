@@ -108,7 +108,12 @@ public class Navigator extends BodyTagSupport{
 	 */
 	private String makeLink(Long page){
 	    StringBuffer rtn = new StringBuffer();
-	    rtn.append("<span class=\"current\">").append(page).append("</span>");
+	    if(currentPage.longValue() == page.longValue()) {
+	    	rtn.append(rtn).append("<span class=\"current\">").append(page).append("</span>").toString();
+        } else {
+        	rtn.append(rtn).append("<a href=\"javascript:").append(href).append("(").append(page).append(",this );\" ").append(">").toString();
+        	rtn.append(rtn).append("").append(page).append("</a>").toString();
+        }
 	    return rtn.toString();
 	}
 	
@@ -157,15 +162,16 @@ public class Navigator extends BodyTagSupport{
 	    init();
 	    buffer.append("<div class=\"pageNavigation\">");
 	    if(isStartFinishView.toLowerCase().equals("true"))
-	        if(firstPage.longValue() == startPageOfBlock.longValue())
-	            buffer.append(firstButton).append("\r\n");
-	        else
+	        if(firstPage.longValue() == startPageOfBlock.longValue()){
+	           // buffer.append(firstButton).append("\r\n");
+	        }else{
 	            buffer.append(makeButton(firstPage, firstButton ,"goToFirst")).append("\r\n");
-	    if(prevPage.longValue() == startPageOfBlock.longValue())
-	        buffer.append(prevButton).append("\r\n");
-	    else
+	        }
+	    if(prevPage.longValue() == startPageOfBlock.longValue()){
+	      //  buffer.append(prevButton).append("\r\n");
+	    }else{
 	        buffer.append(makeButton(prevPage, prevButton, "goToPrev")).append("\r\n");
-	
+	    }
 	    Long showPage = startPageOfBlock;
 	    for(int i = 0; (long)i < pagePerBlock.longValue(); i++) {        	
 	        buffer.append((new StringBuilder()).append(makeLink(showPage)).append("\r\n").toString());
@@ -179,15 +185,17 @@ public class Navigator extends BodyTagSupport{
 	    }
 	
 	    showPage = Long.valueOf(showPage.longValue() - 1);
-	    if(showPage.longValue() == nextPage.longValue())
-	        buffer.append(nextButton).append("\r\n");
-	    else
+	    if(showPage.longValue() == nextPage.longValue()){
+	       // buffer.append(nextButton).append("\r\n");
+	    }else{
 	        buffer.append(makeButton(nextPage, nextButton, "goToNext")).append("\r\n");
+	    }
 	    if(isStartFinishView.toLowerCase().equals("true"))
-	        if(showPage.longValue() == lastPage.longValue())
-	            buffer.append(lastButton).append("\r\n");
-	        else
+	        if(showPage.longValue() == lastPage.longValue()){
+	            //buffer.append(lastButton).append("\r\n");
+	        }else{
 	            buffer.append(makeButton(lastPage, lastButton, "goToLast")).append("\r\n");
+	        }
 	    buffer.append("</div>\r\n");
 	    return buffer;
 	}
