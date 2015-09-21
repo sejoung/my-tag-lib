@@ -1,6 +1,6 @@
 # my-tag-lib
 Automatically exported from code.google.com/p/my-tag-lib
-```
+```xml
 <%@ taglib prefix="navi"    uri="http://support.sanaes.com/navi" %>
 
  <navi:navigator  currentPage="1"
@@ -13,12 +13,12 @@ Automatically exported from code.google.com/p/my-tag-lib
                   lastButton="<img src='common/list_last.gif' alt='마지막' align='absmiddle'>"   
                   isStartFinishView="true"                        
                   href="goPage"/>
+```                  
                   
                   
                   
-                  
-                  
-                  @CHARSET "UTF-8";
+```css                  
+@CHARSET "UTF-8";
 /* reset */
 * {margin:0; padding:0; font-size:12px;}
 * {scrollbar-face-color:#F7F7F7; scrollbar-highlight-color:#FFF; scrollbar-shadow-color:#E4E4E4; scrollbar-3dlight-color:#E7E7E7; scrollbar-arrow-color:#919FC3; scrollbar-track-color:#F5F5F5; scrollbar-darkshadow-color:#D9D9DF;}
@@ -51,12 +51,12 @@ a:hover {text-decoration:none; color:#003887;}
 .pageNavigation .pageJump img           {margin:0 0 0 5px; vertical-align:middle;}
 /*--------------------------------------------PAGING NAVIGATION--------------------------------------------*/
 
+```
 
 
 
 
-
-
+```xml
 <Resource name="jdbc/TestDB"
           factory="kr.co.killers.tomcat.EncryptedDataSourceFactoryDbcp"
           auth="Container"
