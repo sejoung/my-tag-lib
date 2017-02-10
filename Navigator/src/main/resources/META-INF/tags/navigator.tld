@@ -6,7 +6,7 @@
   <short-name>navi</short-name>
   <uri>http://support.sanaes.com/navi</uri>
   <display-name>sanaes navigator</display-name>
-  <description>page navigator</description>
+  <description>page navigator bootstrap</description>
   <tag>
     <name>navigator</name>
     <tag-class>com.sanaes.support.utility.tag.Navigator</tag-class>
@@ -31,36 +31,5 @@
       <required>true</required>
       <rtexprvalue>true</rtexprvalue>
     </attribute>
-    <attribute>
-      <name>href</name>
-      <required>false</required>
-      <rtexprvalue>true</rtexprvalue>
-    </attribute>
-    <attribute>
-      <name>firstButton</name>
-      <required>false</required>
-      <rtexprvalue>true</rtexprvalue>
-    </attribute>
-    <attribute>
-      <name>prevButton</name>
-      <required>false</required>
-      <rtexprvalue>true</rtexprvalue>
-    </attribute>
-    <attribute>
-      <name>nextButton</name>
-      <required>false</required>
-      <rtexprvalue>true</rtexprvalue>
-    </attribute>
-    <attribute>
-      <name>lastButton</name>
-      <required>false</required>
-      <rtexprvalue>true</rtexprvalue>
-    </attribute>
-    <attribute>
-      <name>isStartFinishView</name>
-      <required>false</required>
-      <rtexprvalue>true</rtexprvalue>
-    </attribute>
-    <example>Brief snippet showing how to use this tag.</example>
   </tag>
 </taglib>
