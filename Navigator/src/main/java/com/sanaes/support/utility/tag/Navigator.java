@@ -30,27 +30,6 @@ public class Navigator extends BodyTagSupport{
 	/**
 	 * 호출할 스크립트 function name
 	 */
-	private String href;
-	/**
-	 * 처음으로 보내는 버튼 이미지
-	 */
-	private String firstButton;
-	/**
-	 * 앞으로 보내는 버튼 이미지
-	 */
-	private String prevButton;
-	/**
-	 * 다음으로 보내는 버튼 이미지
-	 */
-	private String nextButton;
-	/**
-	 * 마지막으로 보내는 버튼 이미지
-	 */
-	private String lastButton;
-	/**
-	 * 처음으로 보는건지 구분
-	 */
-	private String isStartFinishView;
 	private Long currentBlock;
 	private Long startPageOfBlock;
 	private Long pageCount;
@@ -61,12 +40,6 @@ public class Navigator extends BodyTagSupport{
 	private Long nextPage;
 
 	public Navigator(){
-	    this.href = "";
-	    this.firstButton = "";
-	    this.prevButton = "";
-	    this.nextButton = "";
-	    this.lastButton = "";
-	    this.isStartFinishView = "true";
 	}
 	
 	public int doStartTag() throws JspException {
@@ -109,26 +82,10 @@ public class Navigator extends BodyTagSupport{
 	private String makeLink(Long page){
 	    StringBuffer rtn = new StringBuffer();
 	    if(currentPage.longValue() == page.longValue()) {
-	    	rtn.append(rtn).append("<span class=\"current\">").append(page).append("</span>").toString();
+	    	rtn.append(rtn).append("<li class=\"active\"><a href=\"#\">").append(page).append("<span class=\"sr-only\">(current)</span></a></li>").toString();
         } else {
-        	rtn.append(rtn).append("<a href=\"javascript:").append(href).append("(").append(page).append(",this );\" ").append(">").toString();
-        	rtn.append(rtn).append("").append(page).append("</a>").toString();
+        	rtn.append(rtn).append("<li onclick=\"javascript:goPage('"+page+"');\"><a href=\"#\">").append(page).append("</a></li>");
         }
-	    return rtn.toString();
-	}
-	
-	/**
-	 *  페이지와 버튼이미지를 받아서 이미지를 생성 시킨다.
-	 * @param page
-	 * @param button
-	 * @param classStr
-	 * @return 버튼 String
-	 */
-	private String makeButton(Long page, String button, String classStr) {
-	    StringBuffer rtn = new StringBuffer();
-	    rtn.append("<a class=\""+classStr+"\" href=\"javascript:").append(href).append("(").append(page).append(");\">");
-	    rtn.append(button);
-	    rtn.append("</a>");
 	    return rtn.toString();
 	}
 	
@@ -137,40 +94,17 @@ public class Navigator extends BodyTagSupport{
 	 * 
 	 * 해당 디자인의 페이지 네이게이션을 리턴한다.
 	 * 
-	 * <div class="pageNavigation">
-	 *		<a class="goToFirst" href="#"><img src="../../docs/common/img/list_first.gif" alt="처음" /></a>
-	 *		<a class="goToPrev" href="#"><img src="../../docs/common/img/list_prev.gif" alt="이전" /></a>
-	 *		<span class="current">1</span>
-	 *		<a href="#">2</a>
-	 *		<a href="#">3</a>
-	 *		<a href="#">4</a>
-	 *		<a href="#">5</a>
-	 * 	<a href="#">6</a>
-	 * 	<a href="#">7</a>
-	 * 	<a href="#">8</a>
-	 * 	<a href="#">9</a>
-	 * 	<a href="#">10</a>
-	 * 	<a class="goToNext" href="#"><img src="../../docs/common/img/list_next.gif" alt="다음" /></a>
-	 * 	<a class="goToLast" href="#"><img src="../../docs/common/img/list_last.gif" alt="마지막" /></a>
-	 * </div>
-	 * 
-	 * 
 	 * @return pageNavigation String
 	 */
 	private StringBuffer makeNavigator(){
 	    StringBuffer buffer = new StringBuffer();
 	    init();
-	    buffer.append("<div class=\"pageNavigation\">");
-	    if(isStartFinishView.toLowerCase().equals("true"))
-	        if(firstPage.longValue() == startPageOfBlock.longValue()){
-	           // buffer.append(firstButton).append("\r\n");
-	        }else{
-	            buffer.append(makeButton(firstPage, firstButton ,"goToFirst")).append("\r\n");
-	        }
+	    buffer.append("<nav>");
+	    buffer.append("<ul class=\"pagination\">");
 	    if(prevPage.longValue() == startPageOfBlock.longValue()){
-	      //  buffer.append(prevButton).append("\r\n");
+            buffer.append("<li class=\"disabled\"><a href=\"#\" aria-label=\"Previous\"><span aria-hidden=\"true\">&laquo;</span></a></li>").append("\r\n");
 	    }else{
-	        buffer.append(makeButton(prevPage, prevButton, "goToPrev")).append("\r\n");
+            buffer.append("<li onclick=\"javascript:goPage('"+firstPage+"');\"><a href=\"#\" aria-label=\"Previous\"><span aria-hidden=\"true\">&laquo;</span></a></li>").append("\r\n");
 	    }
 	    Long showPage = startPageOfBlock;
 	    for(int i = 0; (long)i < pagePerBlock.longValue(); i++) {        	
@@ -186,17 +120,12 @@ public class Navigator extends BodyTagSupport{
 	
 	    showPage = Long.valueOf(showPage.longValue() - 1);
 	    if(showPage.longValue() == nextPage.longValue()){
-	       // buffer.append(nextButton).append("\r\n");
+            buffer.append("<li class=\"disabled\"><a href=\"#\" aria-label=\"Next\"><span aria-hidden=\"true\">&raquo;</span></a></li>").append("\r\n");
 	    }else{
-	        buffer.append(makeButton(nextPage, nextButton, "goToNext")).append("\r\n");
+            buffer.append("<li onclick=\"javascript:goPage('"+nextPage+"');\"><a href=\"#\" aria-label=\"Next\"><span aria-hidden=\"true\">&raquo;</span></a></li>").append("\r\n");
 	    }
-	    if(isStartFinishView.toLowerCase().equals("true"))
-	        if(showPage.longValue() == lastPage.longValue()){
-	            //buffer.append(lastButton).append("\r\n");
-	        }else{
-	            buffer.append(makeButton(lastPage, lastButton, "goToLast")).append("\r\n");
-	        }
-	    buffer.append("</div>\r\n");
+	    buffer.append("</ul>\r\n");
+	    buffer.append("</nav>\r\n");
 	    return buffer;
 	}
 	
@@ -231,54 +160,5 @@ public class Navigator extends BodyTagSupport{
 	public Long getCurrentPage(){
 	    return currentPage;
 	}
-	
-	public void setHref(String value){
-	    href = value;
-	}
-	
-	public String getHref(){
-	    return href;
-	}
-	
-	public void setFirstButton(String value){
-	    firstButton = value;
-	}
-	
-	public String getFirstButton(){
-	    return firstButton;
-	}
-	
-	public void setPrevButton(String value){
-	    prevButton = value;
-	}
-	
-	public String getPrevButton(){
-	    return prevButton;
-	}
-	
-	public void setNextButton(String value){
-	    nextButton = value;
-	}
-	
-	public String getNextButton(){
-	    return nextButton;
-	}
-	
-	public void setLastButton(String value){
-	    lastButton = value;
-	}
-	
-	public String getLastButton(){
-	    return lastButton;
-	}
-	
-	public void setIsStartFinishView(String value){
-	    isStartFinishView = value;
-	}
-	
-	public String getIsStartFinishView(){
-	    return isStartFinishView;
-	}
-	
     
 }
